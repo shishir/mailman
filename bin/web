@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+bundle exec puma -p 9292 config.ru
