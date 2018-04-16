@@ -22,21 +22,36 @@
   end
 
   def test_process_saves_email_to_database
-
-    mock_rack_request()
     mock_email = Minitest::Mock.new
-    request = Request.new(mock_rack_request)
+    request = Request.new(mock_rack_request(valid_payload))
     request.process
 
     assert_equal 1, Email.count
   end
 
-  def mock_rack_request
+  def test_process_does_not_save_email_to_database
+    mock_email = Minitest::Mock.new
+    request = Request.new(mock_rack_request(invalid_payload))
+    request.process
+
+    assert_equal 0, Email.count
+  end
+
+
+  def mock_rack_request(payload)
     req = Minitest::Mock.new
     req.expect :path_info, "/send"
-    json_payload = '{"to":["shishir.das@gmail.com"], "from":"oogabooga@gmail.com", "content":"hi! there"}'
+    json_payload = payload
     req.expect :body, Minitest::Mock.new.expect(:read, json_payload)
     req
+  end
+
+  def valid_payload
+    '{"to":["shishir.das@gmail.com"], "from":"oogabooga@gmail.com", "content":"hi! there"}'
+  end
+
+  def invalid_payload
+    '{}'
   end
 end
 

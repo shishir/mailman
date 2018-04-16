@@ -68,34 +68,3 @@ class TestEmail < Minitest::Test
     assert_equal 1     , no_content.errors[:content].length
   end
 end
-
-# /*
-# {
-#   "personalizations": [
-#     {
-#       "to": [
-#         {
-#           "email": "john.doe@example.com",
-#           "name": "John Doe"
-#         }
-#       ],
-#       "subject": "Hello, World!"
-#     }
-#   ],
-#   "from": {
-#     "email": "sam.smith@example.com",
-#     "name": "Sam Smith"
-#   },
-#   "reply_to": {
-#     "email": "sam.smith@example.com",
-#     "name": "Sam Smith"
-#   },
-#   "subject": "Hello, World!",
-#   "content": [
-#     {
-#       "type": "text/html",
-#       "value": "<html><p>Hello, world!</p></html>"
-#     }
-#   ]
-# }
-# */
