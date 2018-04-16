@@ -1,8 +1,8 @@
 class Request
   attr_reader :request
 
-  def initialize(env)
-    @request = Rack::Request.new(env)
+  def initialize(request)
+    @request = request
   end
 
   def send_email?
@@ -10,10 +10,10 @@ class Request
   end
 
   def process
-    data = request.body.read
-    if send_email?
 
-      # save to db
+    if send_email?
+      data = request.body.read
+      email = Email.create(mail: data)
       # publish
     else
       # send not_found
