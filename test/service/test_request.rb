@@ -1,5 +1,9 @@
-require_relative("../test_helper")
-class TestRequest < Minitest::Test
+  require_relative("../test_helper")
+  class TestRequest < Minitest::Test
+
+  def setup
+    Email.delete_all
+  end
 
   def test_send_email_matches_correct_route
     mock_rack_request = Minitest::Mock.new
@@ -30,7 +34,7 @@ class TestRequest < Minitest::Test
   def mock_rack_request
     req = Minitest::Mock.new
     req.expect :path_info, "/send"
-    json_payload = '{"to":"shishir.das@gmail.com", "from":"oogabooga@gmail.com", "body":"hi! there"}'
+    json_payload = '{"to":["shishir.das@gmail.com"], "from":"oogabooga@gmail.com", "content":"hi! there"}'
     req.expect :body, Minitest::Mock.new.expect(:read, json_payload)
     req
   end
