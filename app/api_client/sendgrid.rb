@@ -16,6 +16,9 @@ class Sendgrid
     "#{@base_url}/mail/send"
   end
   def to_json(data)
+    to_hash(data).to_json
+  end
+  def to_hash(data)
     xml_data = JSON.parse(data)
 
     data = {

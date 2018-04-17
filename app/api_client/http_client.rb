@@ -3,7 +3,7 @@ class HttpClient
     uri = URI("#{path}")
     req = Net::HTTP::Post.new(uri)
 
-    req.body = data.to_json unless data.empty?
+    req.body = data unless data.empty?
 
     headers.each do |k, v|
       req[k.to_s]=v

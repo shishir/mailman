@@ -23,7 +23,8 @@ class TestSendgrid < Minitest::Test
         "type": "text/plain",
         "value": "hi! there"
       }]
-    }
+    }.to_json()
+
     assert_equal expected, actual
   end
 end
