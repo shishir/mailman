@@ -1,2 +1,2 @@
 #! /usr/bin/env sh
-ruby -Ilib -e 'ARGV.each { |f| require f }' ./test/**/*.rb
+ruby -e 'ARGV.each { |f| require f }' ./test/**/*.rb
