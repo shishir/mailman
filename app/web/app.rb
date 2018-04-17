@@ -22,16 +22,16 @@ class App
   end
 
   def update?
-    false
+    @request.path_info =~ /mail\/[1-9]*/ && @request.put?
   end
 
   def params
     hsh = {}
-    if create?
+    if create? || update?
       hsh[:mail] = @request.body.read
     end
-    if status?
-      match_data = /mail\/([1-9]*)\/status/.match(@request.path_info)
+    if status? || update?
+      match_data = /mail\/([1-9]*)/.match(@request.path_info)
       hsh[:id] = match_data[1]
     end
     hsh

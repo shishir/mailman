@@ -1,5 +1,8 @@
 class Email < ActiveRecord::Base
-  SENDING = "sending"
+
+    SENDING = "sending"
+    SENT    = "sent"
+
 
   validate :correctness_of_to_field
   validate :correctness_of_from_field
