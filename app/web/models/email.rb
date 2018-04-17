@@ -2,6 +2,7 @@ class Email < ActiveRecord::Base
 
     SENDING = "sending"
     SENT    = "sent"
+    FAILED  = "failed"
 
 
   validate :correctness_of_to_field

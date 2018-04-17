@@ -19,9 +19,18 @@ class EmailsController
     [200, {"Content-Type" => "application/json"}, [{mail: {id: email.id, status: email.status,  links: [self: "/mail/#{email.id}/status", show: "/mail/#{email.id}"]}}.to_json]]
   end
 
-  def update
+  def sent
+    update_status(Email::SENT)
+  end
+
+  def failed
+    update_status(Email::FAILED)
+  end
+
+  private
+  def update_status(status)
     email = Email.find(params[:id])
-    email.status = JSON.parse(params[:mail])["status"]
+    email.status = status
     if email.save
       [200, {"Content-Type" => "application/json"}, [{mail: {id: email.id, links: [status: "/mail/#{email.id}/status", self: "/mail/#{email.id}"]}}.to_json]]
     else

@@ -35,12 +35,21 @@ class TestRequest < Minitest::Test
     assert_equal "sending", JSON.parse(last_response.body)["mail"]["status"]
   end
 
-  def test_update_status
+  def test_update_success
     Email.create(mail: valid_payload, status: Email::SENDING)
 
-    put("/mail/#{Email.last.id}", '{"status": "sent"}', {'CONTENT_TYPE' => 'application/json'} )
+    post("/mail/#{Email.last.id}/sent", {'CONTENT_TYPE' => 'application/json'} )
     assert_equal 200, last_response.status
     assert_equal Email::SENT, Email.last.status
+
+  end
+
+  def test_update_failure
+    Email.create(mail: valid_payload, status: Email::SENDING)
+
+    post("/mail/#{Email.last.id}/failed", {'CONTENT_TYPE' => 'application/json'} )
+    assert_equal 200, last_response.status
+    assert_equal Email::FAILED, Email.last.status
 
   end
 end

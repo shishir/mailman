@@ -7,8 +7,10 @@ class App
       return EmailsController.new(params).create
     elsif status?
       return EmailsController.new(params).status
-    elsif update?
-      return EmailsController.new(params).update
+    elsif sent?
+      return EmailsController.new(params).sent
+    elsif failed?
+      return EmailsController.new(params).failed
     end
   end
 
@@ -21,16 +23,20 @@ class App
     @request.path_info =~ /mail\/[1-9]*\/status/ && @request.get?
   end
 
-  def update?
-    @request.path_info =~ /mail\/[1-9]*/ && @request.put?
+  def sent?
+    @request.path_info =~ /mail\/[1-9]*\/sent/ && @request.post?
+  end
+
+  def failed?
+    @request.path_info =~ /mail\/[1-9]*\/failed/ && @request.post?
   end
 
   def params
     hsh = {}
-    if create? || update?
+    if create?
       hsh[:mail] = @request.body.read
     end
-    if status? || update?
+    if status? || sent? || failed?
       match_data = /mail\/([1-9]*)/.match(@request.path_info)
       hsh[:id] = match_data[1]
     end
