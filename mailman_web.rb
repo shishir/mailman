@@ -9,7 +9,7 @@ require 'net/http'
 require_relative("app/web/models/email.rb")
 require_relative("app/mailman_config.rb")
 require_relative("app/web/models/mail_dispatcher.rb")
-require_relative("app/web/controllers/request.rb")
+require_relative("app/web/controllers/emails_controller.rb")
 require_relative("app/web/app.rb")
 
 

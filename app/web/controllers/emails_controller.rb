@@ -1,4 +1,4 @@
-class Request
+class EmailsController
   attr_reader :request
 
   def initialize(request)
