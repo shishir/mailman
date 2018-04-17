@@ -3,7 +3,7 @@ class MailDispatcher
   class << self
     Phobos.configure('config/phobos.yml')
     def publish(email)
-      payload = {id: email.id, mail: email.mail}
+      payload = {id: email.id, mail: email.mail}.to_json
       self.producer.publish(MailmanConfig.main_topic, payload, MailmanConfig.partition)
     end
   end

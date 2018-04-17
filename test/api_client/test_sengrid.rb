@@ -5,7 +5,7 @@ class TestSendgrid < Minitest::Test
 
   def test_should_convert_to_api_format_required_by_sendgrid
     email = Email.create(mail: valid_payload)
-    actual = Sendgrid.new.to_json(email.mail)
+    actual = Api::Sendgrid.new.to_json(email.mail)
     expected = {
      "personalizations": [
       {

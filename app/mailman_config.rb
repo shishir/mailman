@@ -1,7 +1,7 @@
 class MailmanConfig
   class << self
     def settings
-      @settings ||= YAML.load(File.open("#{MailmanWeb.root}/config/mailman.yml"))
+      @settings ||= YAML.load(File.open("#{Mailman.root}/config/mailman.yml"))
     end
     def main_topic
       settings["broker"]["main_topic"]

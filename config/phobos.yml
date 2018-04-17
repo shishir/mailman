@@ -116,7 +116,7 @@ listeners:
       max_ms: 10000
   - handler: Sendgrid
     topic: mailer
-    group_id: sengrid
+    group_id: mailer
     max_concurrency: 1
     start_from_beginning: true
     max_bytes_per_partition: 524288 # 512 KB

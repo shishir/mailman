@@ -17,7 +17,7 @@ ENV['MAILMAN_ENV'] ||= "development"
 ActiveRecord::Base.configurations = YAML.load(File.read('config/database.yml'))
 ActiveRecord::Base.establish_connection ENV['MAILMAN_ENV'].to_sym
 
-module MailmanWeb
+module Mailman
   def self.root
     File.dirname __FILE__
   end
