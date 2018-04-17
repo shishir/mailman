@@ -1,0 +1,6 @@
+broker:
+  main_topic: 'mailer'
+  backup_topic: 'backup-mailer'
+  partition: 'mail'
+sendgrid:
+  api_key: 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

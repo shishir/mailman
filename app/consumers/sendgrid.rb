@@ -5,7 +5,7 @@ class Sendgrid
     if [true,false].sample
       p "Sengrid consumed #{payload} #{metadata}"
     else
-      self.producer.publish('backup-mailer', payload, 'mail')
+      self.producer.publish(MailmanConfig.backup_mailer, payload, MailmanConfig.mailer)
     end
   end
 end

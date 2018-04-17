@@ -6,6 +6,8 @@ class Email < ActiveRecord::Base
   validate :presence_of_content
   validate :email_format_for_cc_bcc_list
 
+  after_save :publish
+
   def correctness_of_to_field
     to = content_hash["to"]
     errors.add(:to, "field is required")  if to.nil?
@@ -32,6 +34,10 @@ class Email < ActiveRecord::Base
   def presence_of_content
     content = content_hash["content"]
     errors.add(:content, "field is required")  if !content|| content&.blank?
+  end
+
+  def publish
+    MailDispatcher.publish(self)
   end
 
   private
