@@ -1,8 +1,8 @@
 require_relative('./http_client.rb')
 class Sendgrid
   def initialize
-    @api_key = ENV['SENGRID_API_KEY']
-    @base_url = "https://sendgrid.com/v3"
+    @api_key     = ENV['SENGRID_API_KEY']
+    @base_url    = "https://sendgrid.com/v3"
     @http_client = HttpClient.new
   end
 
