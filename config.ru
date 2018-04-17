@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require 'rack'
-load 'api.rb'
-run RequestController.new
+load 'mailman_web.rb'
+run App.new

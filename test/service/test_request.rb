@@ -1,6 +1,7 @@
 require_relative("../test_helper")
 class TestRequest < Minitest::Test
   include Rack::Test::Methods
+  include Helper
 
   def setup
     Email.delete_all
@@ -34,13 +35,5 @@ class TestRequest < Minitest::Test
     assert_equal "sending", JSON.parse(last_response.body)["status"]
   end
 
-  private
-  def valid_payload
-    '{"to":["shishir.das@gmail.com"], "from":"oogabooga@gmail.com", "content":"hi! there"}'
-  end
-
-  def invalid_payload
-    '{}'
-  end
 end
 

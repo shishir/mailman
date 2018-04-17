@@ -1,6 +1,6 @@
 require_relative("../test_helper")
 class TestEmail < Minitest::Test
-
+  include Helper
   def test_validate_to_field
     field_not_pased = Email.new(mail: "{}")
 
