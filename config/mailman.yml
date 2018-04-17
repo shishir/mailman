@@ -1,4 +1,5 @@
 broker:
   main_topic: 'mailer'
   backup_topic: 'backup-mailer'
+  status_topic: 'status'
   partition: 'mail'
