@@ -5,6 +5,7 @@ require 'json'
 require 'kafka'
 require 'phobos'
 require 'net/http'
+require 'logger'
 
 require_relative("app/web/models/email.rb")
 require_relative("app/mailman_config.rb")
@@ -20,6 +21,11 @@ ActiveRecord::Base.establish_connection ENV['MAILMAN_ENV'].to_sym
 module Mailman
   def self.root
     File.dirname __FILE__
+  end
+
+  def self.log(level, msg)
+    @logger ||= Logger.new("log/mailman.log")
+    @logger.info(msg)
   end
 end
 
