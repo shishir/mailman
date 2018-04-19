@@ -1,3 +1,4 @@
+# Simple post/get wrapper around net/http.
 class HttpClient
   def post(path, headers={}, data={})
     uri = URI("#{path}")

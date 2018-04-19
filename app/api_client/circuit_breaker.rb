@@ -1,3 +1,7 @@
+# Circuit breaker. subsequent request will fail fast instead of timing out when downstream system are un-responsive
+# TODO: Reset circuit should have exponential backoff. Move reset logic to its own class and persist it in a common store
+# so that state can be shared across consumer.
+
 class CircuitBreaker
   attr_reader :state
   def initialize(options={}, &block)

@@ -23,10 +23,12 @@ module Mailman
     File.dirname __FILE__
   end
 
-  def self.log(level, msg)
-    @logger ||= Logger.new("log/mailman.log")
+  def log(msg)
+    @logger ||= Logger.new(STDOUT)
+    @logger.level = Logger::INFO
     @logger.info(msg)
   end
 end
+include Mailman
 
 

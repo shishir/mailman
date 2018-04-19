@@ -1,3 +1,4 @@
+# Kafka Consumer for Mailgun
 module Mailman
   module Consumer
     class Mailgun
@@ -8,10 +9,10 @@ module Mailman
         hsh = JSON.parse(payload)
         circuitBreaker = CircuitBreaker.new {Api::Mailgun.new.send(hsh["mail"])}.call
         hsh[:status] = "success"
-        self.producer.publish(MailmanConfig.status_topic, hsh.to_json, MailmanConfig.partition)
+        self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
       rescue CircuitBreakerOpen => e
         hsh[:status] = "failure"
-        self.producer.publish(MailmanConfig.status_topic, payload, MailmanConfig.partition)
+        self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
       end
     end
   end

@@ -15,10 +15,6 @@ class MailmanConfig
       settings["broker"]["status_topic"]
     end
 
-    def partition
-      settings["broker"]["partition"]
-    end
-
     def web_success_url
       settings["web"]["success"]
     end

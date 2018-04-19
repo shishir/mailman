@@ -10,7 +10,7 @@ class Email < ActiveRecord::Base
   validate :presence_of_content
   validate :email_format_for_cc_bcc_list
 
-  after_save :publish
+  after_create :publish
 
   def correctness_of_to_field
     to = content_hash["to"]

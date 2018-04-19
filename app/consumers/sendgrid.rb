@@ -1,3 +1,5 @@
+# Kafka Consumer for Sendgrid.
+# TODO: partition should be parameterized.
 module Mailman
   module Consumer
     class Sendgrid
@@ -6,12 +8,13 @@ module Mailman
       def consume(payload, metadata)
         begin
           hsh = JSON.parse(payload)
-          circuitBreaker = CircuitBreaker.new {Api::Sendgrid.new.send(hsh["mail"])}.call
+          log(hsh)
+          Api::Sendgrid.new.send(hsh["mail"])
           hsh[:status] = "success"
-          self.producer.publish(MailmanConfig.status_topic, hsh.to_json, MailmanConfig.partition)
+          self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
         rescue CircuitBreakerOpen
           hsh[:status] = "failure"
-          self.producer.publish(MailmanConfig.backup_topic, hsh.to_json, MailmanConfig.partition)
+          self.producer.async_publish(MailmanConfig.backup_topic, hsh.to_json, "#{MailmanConfig.backup_topic}-partition}")
         end
       end
     end

@@ -1,3 +1,5 @@
+# Mailgun API client.
+# TODO: Exception handing other than timeout.
 require_relative('./http_client.rb')
 module Api
   class Mailgun

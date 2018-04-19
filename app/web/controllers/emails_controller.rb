@@ -6,6 +6,7 @@ class EmailsController
   end
 
   def create
+    log("Create called with following params #{params}")
     email = Email.new(mail: params[:mail], status: Email::SENDING)
     if email.save
       [201, {"Content-Type" => "application/json", "location" => "/mail/#{email.id}"}, [{mail: {id: email.id, links: [status: "/mail/#{email.id}/status", self: "/mail/#{email.id}"]}}.to_json]]
@@ -20,15 +21,18 @@ class EmailsController
   end
 
   def sent
+    log("sent")
     update_status(Email::SENT)
   end
 
   def failed
+    log("failed")
     update_status(Email::FAILED)
   end
 
   private
   def update_status(status)
+    log("update #{status} for email with id: #{params[:id]}")
     email = Email.find(params[:id])
     email.status = status
     if email.save

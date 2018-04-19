@@ -1,3 +1,8 @@
+# Sendgrid API client.
+# TODO: Exception handing other than timeout.
+#       Move configurations to yaml.
+#       Implement sending CC/BCC fields
+
 require_relative('./http_client.rb')
 module Api
   class Sendgrid
