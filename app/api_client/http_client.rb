@@ -40,4 +40,7 @@ class HttpClient
       res.value
     end
   end
+  def log(msg)
+    p msg
+  end
 end

@@ -13,11 +13,13 @@ phobos_boot.rb - find this file at #{File.expand_path(__FILE__)}
 "
 require 'net/http'
 require_relative 'app/api_client/http_client.rb'
+require_relative 'app/api_client/circuit_breaker.rb'
 require_relative 'app/api_client/sendgrid.rb'
 require_relative 'app/api_client/mailgun.rb'
 require_relative 'app/mailman_config.rb'
 require_relative 'app/consumers/sendgrid.rb'
 require_relative 'app/consumers/mailgun.rb'
+require_relative 'app/consumers/bookkeeper.rb'
 
 module Mailman
   def self.root

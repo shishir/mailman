@@ -6,10 +6,12 @@ module Mailman
 
       def consume(payload, metadata)
         hsh = JSON.parse(payload)
-        email = JSON.parse(payload)["mail"]
-        Api::Mailgun.new.send(hsh["mail"])
-      rescue Exception => e
-        self.producer.publish(MailmanConfig.status, payload, MailmanConfig.partition)
+        circuitBreaker = CircuitBreaker.new {Api::Mailgun.new.send(hsh["mail"])}.call
+        hsh[:status] = "success"
+        self.producer.publish(MailmanConfig.status_topic, hsh.to_json, MailmanConfig.partition)
+      rescue CircuitBreakerOpen => e
+        hsh[:status] = "failure"
+        self.producer.publish(MailmanConfig.status_topic, payload, MailmanConfig.partition)
       end
     end
   end

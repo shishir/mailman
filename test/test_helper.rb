@@ -5,6 +5,7 @@ ENV['MAILMAN_ENV'] = "test"
 require_relative "../mailman_web.rb"
 
 require_relative "#{Mailman.root}/app/api_client/http_client.rb"
+require_relative "#{Mailman.root}/app/api_client/circuit_breaker.rb"
 require_relative "#{Mailman.root}/app/api_client/sendgrid.rb"
 require_relative "#{Mailman.root}/app/api_client/mailgun.rb"
 require_relative "#{Mailman.root}/app/mailman_config.rb"

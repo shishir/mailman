@@ -11,6 +11,10 @@ class MailmanConfig
       settings["broker"]["backup_topic"]
     end
 
+    def status_topic
+      settings["broker"]["status_topic"]
+    end
+
     def partition
       settings["broker"]["partition"]
     end
