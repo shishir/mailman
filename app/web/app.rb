@@ -1,3 +1,5 @@
+# Main entry point. Use rack-contrib to use routing/caching middlewares or
+# move to sinatra which is significantly slower but have better rest api support.
 require 'json'
 
 class App
@@ -20,6 +22,7 @@ class App
   end
 
   def status?
+    # TODO: Cache request based on Etag
     @request.path_info =~ /mail\/[1-9]*\/status/ && @request.get?
   end
 
