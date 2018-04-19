@@ -114,7 +114,7 @@ listeners:
     backoff:
       min_ms: 500
       max_ms: 10000
-  - handler: Sendgrid
+  - handler: Mailman::Consumer::Sendgrid
     topic: mailer
     group_id: mailer
     max_concurrency: 1
@@ -127,7 +127,20 @@ listeners:
     backoff:
       min_ms: 500
       max_ms: 10000
-  - handler: Mailgun
+  - handler: Mailman::Consumer::Mailgun
+    topic: backup-mailer
+    group_id: backup-mailer
+    max_concurrency: 1
+    start_from_beginning: true
+    max_bytes_per_partition: 524288 # 512 KB
+    min_bytes: 1
+    max_wait_time: 5
+    force_encoding:
+    delivery: batch
+    backoff:
+      min_ms: 500
+      max_ms: 10000
+  - handler: Mailman::Consumer::Mailgun
     topic: backup-mailer
     group_id: backup-mailer
     max_concurrency: 1

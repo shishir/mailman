@@ -14,5 +14,13 @@ class MailmanConfig
     def partition
       settings["broker"]["partition"]
     end
+
+    def web_success_url
+      settings["web"]["success"]
+    end
+
+    def web_failure_url
+      settings["web"]["failed"]
+    end
   end
 end

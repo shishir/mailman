@@ -3,3 +3,7 @@ broker:
   backup_topic: 'backup-mailer'
   status_topic: 'status'
   partition: 'mail'
+web:
+  success: 'http://localhost/mail/:id/sent'
+  failure: 'http://localhost/mail/:id/failed'
+
