@@ -9,6 +9,7 @@ class Email < ActiveRecord::Base
   validate :correctness_of_from_field
   validate :presence_of_content
   validate :email_format_for_cc_bcc_list
+  validate :size_of_mail_less_than_1000
 
   after_create :publish
 
@@ -38,6 +39,12 @@ class Email < ActiveRecord::Base
   def presence_of_content
     content = content_hash["content"]
     errors.add(:content, "field is required")  if !content|| content&.blank?
+  end
+
+  def size_of_mail_less_than_1000
+    if self.mail.size > 2000
+      errors.add(:content, "Exceeds limit of 2000")
+    end
   end
 
   def publish
