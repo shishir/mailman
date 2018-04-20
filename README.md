@@ -65,7 +65,7 @@ Content-Length: 75
 
 # Architecture
 - insert image here
-![Phobos](https://raw.githubusercontent.com/mailman/master/doc/architecture.png
+![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/architecture.png)
 # Installation
 
 
