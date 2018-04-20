@@ -63,17 +63,65 @@ Content-Length: 75
 - *Message Broker:* Apache Kafka: event sourcing framework for durability, speed and scalability.
 
 
-# Architecture
+# Architecture (:
 ![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/arch.jpg)
 
+## Components
+### Restful Api
+  - Rack/puma based RESTful Web service.
+  - Valid End-Consumer endpoints
+   1. POST /mail/send
+   This will save the message in Mysql. Drop a message to mailer queue. And return links for consumer to use to query status of the mail as response with appropriate status code.
+   2. GET /mail/:id/status
+   Return the current status(sending|sent|failed) of the mail.
+  - Valid end-points used by bookkeeper.
+   1. POST /mail/:id/sent. Indicates success.
+   2. POST /mail/:id/failed. Indicates failure.
+  - config.ru in the entry point.
 
-# Installation
+### Consumers
+  - Phobos standalone app. Each instance of phobos have sengrid/mailgun/bookkeeper handlers running.
+    - Sengrid: Listens to mailer queue and makes call to Sengrid API.
+    - Mailgun: Listens to backup-mailer queuue and makes call to Mailgun API.
+    - Bookkeeper: Listens to status queue and makes call to RESTful service to update status of the email
+
+### Producer
+  - Phobos included in Web service as library.
+    - mail_dispatcher.rb: publish message to mailer queue.
+
+### Kafka
+  - Kafka is vendorized. binary under /vendor
+  - Basic configuration in config/zookeeper.properties and server.properties
+  - Bin stubs to start zookeeper and kafka are located in bin directory.
+  - Development with only broker. Production setup would have multiple brokers distributed across AZ.
 
 
 
-# Notes
-- Web and Kafka Consumer Tests can be separated.
-- Should sendgrid know about the format in which email is store in the database or should it request the api to give data in a specified format. In a production system, this will be enforced using contracts where consumer would be aware of the contract and any breakage will result in test failure.
+# TODOs
+## Restful service
+- Http caching for /mail/:id/status endpoint.
+- Add Rack router for more idiomatic route matching
+- Add appropriate Http response headers.
+- Extend links in response to include all resource operations.
+- Add consumer driven contracts in tests.
+- Fail when request type other than json.
+- Re-visit mysql. Kafka is a message store and querying it is possible.
+- Security. Easy to DOS right now.
+- Log aggregation.
+- Extend Validations.
+- Extend status api to return more information to the user in case of failure. /mail/:id/sent, /mail/:id/failed would also need to be extended.
+
+
+## Consumer
+-  Circuit breaker trips on first timeout and then retries after 5 minutes. Improvements:
+  - Move circuit breaker state outside the consumers. So that multiple consumer can check state instead discovering the failure at individual level.
+  - Exponential backoff.
+- More detailed error handling of errors sent by downstream system.
+- Back pressure, inform upstream that when load is high.
+- Add Contracts between web-api mail format and sengrid/mailgun to avoid integration failures.
+- Centralized logging
+- Log aggregation.
+
 
 
 
