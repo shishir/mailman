@@ -1,9 +1,16 @@
 # Mailman
 
- - RESTFul service that provides an abstraction between Sendgrid and Mailman service providers. If Sendgrid service goes down, this service will failover to mailman.
+RESTFul service that provides an abstraction between Sendgrid and Mailman service providers. If Sendgrid service goes down, this service will failover to mailman.
 
-# Usage
+## Table of Contents
 
+1. [Usage](#usage)
+1. [Architecture](#arch)
+1. [Development](#development)
+1. [Notes](#todos)
+
+## <a name="usage"></a>Usage
+### <a name="local-setup"></a>Local Setup
 
 ```
   > git clone https://github.com/shishir/mailman. #clone the repository
@@ -20,7 +27,7 @@ Note: .ruby-version is 2.4.0. Change for other version. tested only in 2.4.0
   > ./bin/web                                     # Start Web server. app.rb is the entry point
 ```
 
-### Sending email.
+### <a name="send-email"></a>1. Sending email.
 #### Request
 ```
 > ./bin/example_request
@@ -28,7 +35,7 @@ Note: .ruby-version is 2.4.0. Change for other version. tested only in 2.4.0
 OR
 
 ```
-> curl -isb -H "Accept: application/json"  -H "Content-Type: application/json" -X POST -d '{"to":["mailman@gmail.com"], "from":"friend@gmail.com", "content":"Hi! There"}' http
+ curl -isb -H "Accept: application/json"  -H "Content-Type: application/json" -X POST -d '{"to":["mailman@gmail.com"], "from":"friend@gmail.com", "content":"Hi! There"}' http
 ://localhost:9292/mail/send
 ```
 
@@ -42,10 +49,10 @@ Content-Length: 75
 {"mail":{"id":54,"links":[{"status":"/mail/54/status","self":"/mail/54"}]}}
 ```
 
-### Querying Status of a sent email
+### 2. Querying Status of a sent email
 ####  Request
 ```
-  > curl http://localhost:9292/mail/53/status
+  curl http://localhost:9292/mail/53/status
 ```
 #### Sample Response
 ```
@@ -54,42 +61,41 @@ Content-Length: 75
 
 
 
-# Stack
-
-- *Restful Service:* Rack, Modular, fast and lightweight Web-server interface.
-- *Datastore:* Mysql. Persistent backend for Restful service provides application state.
-  Kafka is also a message store and provides ability to query.
-- *Kafka Consumer/Producers:* Phobos, Ruby framework for kafka. Wraps kafka-ruby gem, gives simple abstraction to write consumers/producers. Runs in standalone mode. Being used in production.
-- *Message Broker:* Apache Kafka: event sourcing framework for durability, speed and scalability.
-
-
-# Architecture (:
+# <a name="arch"></a>Architecture (:
 ![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/arch.jpg)
 
 ## Components
-### Restful Api
+
+1. *Backend Web service:* Rack. Modular, fast and lightweight Web-server interface.
+2. *Datastore:* Mysql. Persistent backend for Restful service provides application state.
+  Kafka is also a message store and provides ability to query.
+3. *Kafka Consumer/Producers:* Phobos, Ruby framework for kafka. Wraps kafka-ruby gem, gives simple abstraction to write consumers/producers. Runs in standalone mode. Battle tested.
+4. *Message Broker:* Apache Kafka: event sourcing framework for durability, speed and scalability.
+
+#### Backend Web service
   - Rack/puma based RESTful Web service.
   - Valid End-Consumer endpoints
-   1. POST /mail/send
+      1. POST /mail/send
    This will save the message in Mysql. Drop a message to mailer queue. And return links for consumer to use to query status of the mail as response with appropriate status code.
-   2. GET /mail/:id/status
+      2. GET /mail/:id/status
    Return the current status(sending|sent|failed) of the mail.
   - Valid end-points used by bookkeeper.
-   1. POST /mail/:id/sent. Indicates success.
-   2. POST /mail/:id/failed. Indicates failure.
+      1. POST /mail/:id/sent. Indicates success.
+      2. POST /mail/:id/failed. Indicates failure.
   - config.ru in the entry point.
 
-### Consumers
+#### Consumers
   - Phobos standalone app. Each instance of phobos have sengrid/mailgun/bookkeeper handlers running.
     - Sengrid: Listens to mailer queue and makes call to Sengrid API.
     - Mailgun: Listens to backup-mailer queuue and makes call to Mailgun API.
     - Bookkeeper: Listens to status queue and makes call to RESTful service to update status of the email
+  - In memory Circuit breaker trips on first timeout and then retries after 5 minutes to deal with network timeouts.
 
-### Producer
+#### Producer
   - Phobos included in Web service as library.
     - mail_dispatcher.rb: publish message to mailer queue.
 
-### Kafka
+#### Message broker
   - Kafka is vendorized. binary under /vendor
   - Basic configuration in config/zookeeper.properties and server.properties
   - Bin stubs to start zookeeper and kafka are located in bin directory.
@@ -97,7 +103,7 @@ Content-Length: 75
 
 
 
-# TODOs
+# <a name="todos"></a>NOTES/TODOs
 ## Restful service
 - Http caching for /mail/:id/status endpoint.
 - Add Rack router for more idiomatic route matching
@@ -105,7 +111,7 @@ Content-Length: 75
 - Extend links in response to include all resource operations.
 - Add consumer driven contracts in tests.
 - Fail when request type other than json.
-- Re-visit mysql. Kafka is a message store and querying it is possible.
+- Re-visit MySQL datastore. Kafka is a message store and querying it is possible.
 - Security. Easy to DOS right now.
 - Log aggregation.
 - Extend Validations.
