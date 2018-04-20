@@ -1,4 +1,3 @@
 #! /usr/bin/env sh
 
-#curl -isb -H "Accept: application/json"  -H "Content-Type: application/json" -X POST -d '{"to":["shishir.das@gmail.com"], "subject":"Hola" ,"from":"oogabooga@gmail.com", "cc":["shishirdas+1@gmail.com", "shishirdas+2@gmail.com"],  "bcc":["shishirdas+3@gmail.com", "shishirdas+4@gmail.com"], "content":"Hi! There"}' http://34.226.138.118:9292/mail/send
 curl -isb -H "Accept: application/json"  -H "Content-Type: application/json" -X POST -d '{"to":["shishir.das@gmail.com"], "subject":"Hola" ,"from":"oogabooga@gmail.com", "cc":["shishirdas+1@gmail.com", "shishirdas+2@gmail.com"],  "bcc":["shishirdas+3@gmail.com", "shishirdas+4@gmail.com"], "content":"Hi! There"}' http://localhost:9292/mail/send
