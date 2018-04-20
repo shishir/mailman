@@ -150,6 +150,11 @@ Note: This diagram documents key components. It does not highlight all the error
   - tests can be found under test directory.
   - test_request is an end-to-end test.
   - Contracts needs to be added. #pending
+  - bin/test bin stub to run all tests
+
+````
+  > ruby test/web/test_email.rb
+````
 
 # <a name="deployment"></a>Deployment
   - Base ami using packer #pending.
