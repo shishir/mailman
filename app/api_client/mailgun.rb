@@ -25,8 +25,8 @@ module Api
       data = {}
       data[:from] = xml_data["from"]
       data[:to] = xml_data["to"].join(",")
-      # data[:cc] = "baz@example.com"
-      # data[:bcc] = "bar@example.com"
+      data[:cc] = xml_data["cc"].join(",") if xml_data["cc"].present?
+      data[:bcc] = xml_data["bcc"].join(",") if xml_data["bcc"].present?
       data[:subject] = xml_data["subject"]
       data[:text] = xml_data["content"]
       data

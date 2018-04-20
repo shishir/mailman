@@ -31,8 +31,6 @@ module Api
        personalizations: [
         {
           to: fields(xml_data["to"]),
-          # cc: fields(xml_data["cc"]),
-          # bcc: fields(xml_data["bcc"]),
           subject: "Hello, World!"
          }],
         from: {
@@ -43,6 +41,10 @@ module Api
           value: xml_data["content"]
         }]
       }
+
+      data[:personalizations][0][:cc] = fields(xml_data["cc"]) unless xml_data["cc"].nil? || xml_data["cc"].empty?
+      data[:personalizations][0][:bcc] = fields(xml_data["bcc"]) unless xml_data["bcc"].nil? || xml_data["bcc"].empty?
+      data
     end
 
     private
