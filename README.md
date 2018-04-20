@@ -6,8 +6,10 @@ RESTFul service that provides an abstraction between Sendgrid and Mailman servic
 
 1. [Usage](#usage)
 1. [Architecture](#arch)
-1. [Development](#development)
 1. [Notes](#todos)
+1. [Test](#test)
+1. [Deployment](#test)
+
 
 ## <a name="usage"></a>Usage
 ### <a name="local-setup"></a>Local Setup
@@ -101,9 +103,7 @@ Content-Length: 75
   - Bin stubs to start zookeeper and kafka are located in bin directory.
   - Development with only broker. Production setup would have multiple brokers distributed across AZ.
 
-
-
-# <a name="todos"></a>NOTES/TODOs
+# <a name="todos"></a>Notes/TODOs
 ## Restful service
 - Http caching for /mail/:id/status endpoint.
 - Add Rack router for more idiomatic route matching
@@ -120,14 +120,22 @@ Content-Length: 75
 
 ## Consumer
 -  Circuit breaker trips on first timeout and then retries after 5 minutes. Improvements:
-  - Move circuit breaker state outside the consumers. So that multiple consumer can check state instead discovering the failure at individual level.
-  - Exponential backoff.
+    - Move circuit breaker state outside the consumers. So that multiple consumer can check state instead discovering the failure at individual level.
+    - Exponential backoff.
 - More detailed error handling of errors sent by downstream system.
 - Back pressure, inform upstream that when load is high.
 - Add Contracts between web-api mail format and sengrid/mailgun to avoid integration failures.
 - Centralized logging
 - Log aggregation.
 
+# <a name="test"></a>Test
+  - tests can be found under test directory.
+  - test_request is an end-to-end test.
+  - Contracts needs to be added. #pending
+
+# <a name="deployment"></a>Deployment
+  - Base ami using packer #pending.
+  - AWS setup using terraform #pending.
 
 
 
