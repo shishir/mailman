@@ -14,7 +14,7 @@ class TestSendgrid < Minitest::Test
             "email": "shishir.das@gmail.com",
           }
           ],
-          "subject": "Hello, World!"
+          "subject": "hola"
       }],
       "from": {
         "email": "oogabooga@gmail.com",
@@ -29,7 +29,7 @@ class TestSendgrid < Minitest::Test
   end
 
   def test_should_convert_to_api_format_with_cc_bcc_required_by_sendgrid
-    payload = {"to":["shishir.das@gmail.com"], "cc":["shishir.das@gmail.com"], "bcc":["shishir.das@gmail.com"],"from":"oogabooga@gmail.com", "content":"hi! there"}.to_json
+    payload = {"to":["shishir.das@gmail.com"], "subject": "hola", "cc":["shishir.das@gmail.com"], "bcc":["shishir.das@gmail.com"],"from":"oogabooga@gmail.com", "content":"hi! there"}.to_json
     email = Email.create(mail: payload)
     actual = Api::Sendgrid.new.to_json(email.mail)
     expected = {
@@ -39,7 +39,7 @@ class TestSendgrid < Minitest::Test
           {
             "email": "shishir.das@gmail.com",
           }],
-        "subject": "Hello, World!",
+        "subject": "hola",
         "cc": [
           {
             "email": "shishir.das@gmail.com",

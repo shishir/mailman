@@ -12,7 +12,7 @@ require_relative "#{Mailman.root}/app/mailman_config.rb"
 
 module Helper
   def valid_payload
-    '{"to":["shishir.das@gmail.com"],"from":"oogabooga@gmail.com", "content":"hi! there"}'
+    '{"to":["shishir.das@gmail.com"], "subject": "hola", "from":"oogabooga@gmail.com", "content":"hi! there"}'
   end
 
   def invalid_payload

@@ -31,7 +31,7 @@ module Api
        personalizations: [
         {
           to: fields(xml_data["to"]),
-          subject: "Hello, World!"
+          subject: xml_data["subject"]
          }],
         from: {
           email: xml_data["from"]
