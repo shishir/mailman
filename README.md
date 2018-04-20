@@ -1,6 +1,6 @@
 # Mailman
 
-RESTFul service that provides an abstraction between Sendgrid and Mailman service providers. If Sendgrid service goes down, this service will failover to mailman.
+RESTFul service that provides an abstraction between Sendgrid and Mailman service providers. If Sendgrid service goes down, this service will failover to mailgun.
 
 ## Table of Contents
 
