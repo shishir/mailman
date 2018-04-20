@@ -65,7 +65,7 @@ Content-Length: 75
 
 # Architecture
 - insert image here
-![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/architecture.png)
+![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/arch.png)
 # Installation
 
 
