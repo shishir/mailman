@@ -64,7 +64,7 @@ class Email < ActiveRecord::Base
         invalid_emails
       end
       if invalid_emails.length > 0
-        errors.add(field_name, "following email address are incorred #{invalid_emails.join(',')}")
+        errors.add(field_name, "following email addresses are incorrect #{invalid_emails.join(',')}")
       end
   end
 end

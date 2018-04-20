@@ -13,6 +13,11 @@ module Mailman
       rescue CircuitBreakerOpen => e
         hsh[:status] = "failure"
         self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
+      rescue Exception
+        # Handle all other exception here. Mark the message failure.
+        # TODO, handle api exception seperate to provide more information to the user.
+        hsh[:status] = "failure"
+        self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
       end
     end
   end

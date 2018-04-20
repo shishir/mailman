@@ -15,6 +15,7 @@ module Mailman
           log(url)
           http_client.post(url, {})
         rescue Exception
+          log("Failed updating status for #{payload}")
         end
       end
     end

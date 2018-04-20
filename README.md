@@ -17,14 +17,14 @@ RESTFul service that provides an abstraction between Sendgrid and Mailman servic
 1. Clone repository, install gems and create database. Assumes mysql 5.7 is running.
 
 ```
-  > git clone https://github.com/shishir/mailman. #clone the repository
+  > git clone https://github.com/shishir/mailman.git #clone the repository
   > cd mailman
   > bundle                                        #install gem dependencies
   > rake db:create db:migrate                     #see/change db/database.yml to point to different database.
 ```
-Note: .ruby-version is 2.4.0. Change for other version. tested only in 2.4.0
+Note: .ruby-version is 2.4.0. Change for other version. tested only in 2.4.0. Assumes bundler is installed.
 
-2. Set Sengrid/Mailgun configurations environment variable. Add it to zshrc or bashrc
+2. Set Sengrid/Mailgun configurations environment variable. Add it .profile.
 
 ```
 export SENGRID_API_KEY=<KEY>
@@ -79,6 +79,8 @@ Content-Length: 75
 # <a name="arch"></a>Architecture (:
 ![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/arch.jpg)
 
+Note: This diagram documents key components. It does not highlight all the error scenarios.
+
 ## Components
 
 1. *Backend Web service:* Rack. Modular, fast and lightweight Web-server interface.
@@ -116,6 +118,9 @@ Content-Length: 75
   - Bin stubs to start zookeeper and kafka are located in bin directory.
   - Development with only broker. Production setup would have multiple brokers distributed across AZ.
 
+## Assumptions/Constraints
+  - Email web service validation is complete. It validates all required fields before publishing it to kafka.
+
 # <a name="todos"></a>Notes/TODOs
 ## Restful service
 - Http caching for /mail/:id/status endpoint.
@@ -126,8 +131,8 @@ Content-Length: 75
 - Fail when request type other than json.
 - Re-visit MySQL datastore. Kafka is a message store and querying it is possible.
 - Security. Easy to DOS right now.
-- Log aggregation.
-- Extend Validations.
+- Log aggregation. Add more logging at appropriate level.
+- Extend Validations. Aggressive exception handling around api touch points.
 - Extend status api to return more information to the user in case of failure. /mail/:id/sent, /mail/:id/failed would also need to be extended.
 
 

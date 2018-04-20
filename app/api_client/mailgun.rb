@@ -13,8 +13,6 @@ module Api
     def send(mail)
       data = URI.encode_www_form(to_hsh(mail))
       @http_client.post("#{@base_url}/mail/send", {}, data)
-    rescue
-      p "foo"
     end
 
     def send_url
@@ -32,8 +30,6 @@ module Api
       data[:subject] = xml_data["subject"]
       data[:text] = xml_data["content"]
       data
-    rescue
-      p "foo"
     end
   end
 end
