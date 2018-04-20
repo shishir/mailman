@@ -5,7 +5,7 @@ module Api
   class Mailgun
     def initialize
       @api_key     = ENV['MAILGUN_API_KEY']
-      @domain_name = "sandbox811a51c1fdba4394b610d39f671ca783.mailgun.org"
+      @domain_name = ENV['MAILGUN_DOMAIN_NAME']
       @base_url    = "https://api:#{@api_key}@api.mailgun.net/v3/#{@domain_name}"
       @http_client = HttpClient.new
     end
