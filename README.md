@@ -29,7 +29,7 @@ OR
 
 ```
 > curl -isb -H "Accept: application/json"  -H "Content-Type: application/json" -X POST -d '{"to":["mailman@gmail.com"], "from":"friend@gmail.com", "content":"Hi! There"}' http
-://localhost:9292/send
+://localhost:9292/mail/send
 ```
 
 #### Sample Response
@@ -64,8 +64,9 @@ Content-Length: 75
 
 
 # Architecture
-- insert image here
 ![Mailman](https://raw.githubusercontent.com/shishir/mailman/master/doc/arch.jpg)
+
+
 # Installation
 
 

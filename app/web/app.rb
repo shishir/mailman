@@ -18,7 +18,7 @@ class App
 
   private
   def create?
-    @request.path_info =~ /send/ && @request.post?
+    @request.path_info =~ /mail\/send/ && @request.post?
   end
 
   def status?

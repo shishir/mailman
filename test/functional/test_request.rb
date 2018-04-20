@@ -12,14 +12,14 @@ class TestRequest < Minitest::Test
   end
 
   def test_process_does_not_save_email_to_database
-    post("/send", invalid_payload,  {'CONTENT_TYPE' => 'application/json'} )
+    post("/mail/send", invalid_payload,  {'CONTENT_TYPE' => 'application/json'} )
     assert_equal 400, last_response.status
     assert_equal "{\"mail\":{\"errors\":{\"to\":[\"field is required\"],\"from\":[\"field is required\"],\"content\":[\"field is required\"]}}}", last_response.body
     assert_equal 0, Email.count
   end
 
   def test_post_send
-    post("/send", valid_payload,  {'CONTENT_TYPE' => 'application/json'} )
+    post("/mail/send", valid_payload,  {'CONTENT_TYPE' => 'application/json'} )
     assert_equal 1, Email.count
     id = Email.last.id
     assert_equal 201, last_response.status
