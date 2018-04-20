@@ -14,12 +14,25 @@ RESTFul service that provides an abstraction between Sendgrid and Mailman servic
 ## <a name="usage"></a>Usage
 ### <a name="local-setup"></a>Local Setup
 
+1. Clone repository, install gems and create database. Assumes mysql 5.7 is running.
+
 ```
   > git clone https://github.com/shishir/mailman. #clone the repository
   > cd mailman
   > bundle                                        #install gem dependencies
+  > rake db:create db:migrate                     #see/change db/database.yml to point to different database.
 ```
 Note: .ruby-version is 2.4.0. Change for other version. tested only in 2.4.0
+
+2. Set Sengrid/Mailgun configurations environment variable. Add it to zshrc or bashrc
+
+```
+export SENGRID_API_KEY=<KEY>
+export MAILGUN_API_KEY=<KEY>
+export MAILGUN_DOMAIN_NAME=<KEY>
+```
+
+3. Start zookeeper/kafka/phobos and rack app.
 
 ```
   > cd mailman
