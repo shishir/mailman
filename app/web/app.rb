@@ -13,6 +13,8 @@ class App
       return EmailsController.new(params).sent
     elsif failed?
       return EmailsController.new(params).failed
+    else
+      [404, {"Content-Type" => "application/json"},[]]
     end
   end
 
