@@ -83,11 +83,19 @@ Note: This diagram documents key components. It does not highlight all the error
 
 ## Components
 
-1. *Backend Web service:* Rack. Modular, fast and lightweight Web-server interface.
+1. *Backend Web service:* Rack/Puma
+    - Modular, fast and lightweight Web-server interface. Easy to extend.
+    - The solution does not require authentication.
+    - Puma allows request queuing
+
 2. *Datastore:* Mysql. Persistent backend for Restful service provides application state.
   Kafka is also a message store and provides ability to query.
+
 3. *Kafka Consumer/Producers:* Phobos, Ruby framework for kafka. Wraps kafka-ruby gem, gives simple abstraction to write consumers/producers. Runs in standalone mode. Battle tested.
+
 4. *Message Broker:* Apache Kafka: event sourcing framework for durability, speed and scalability.
+    - Kafka enforces messages to be append only, allows the mailer to see the message only once.
+    - Event sourcing architecture.
 
 #### Backend Web service
   - Rack/puma based RESTful Web service.
@@ -138,7 +146,7 @@ Note: This diagram documents key components. It does not highlight all the error
 
 ## Consumer
 -  Circuit breaker trips on first timeout and then retries after 5 minutes. Improvements:
-    - Move circuit breaker state outside the consumers. So that multiple consumer can check state instead discovering the failure at individual level.
+    - Move circuit breaker state outside the consumers. So that multiple consumer can check state instead discovering the failure at individual level. Use Hystrix.
     - Exponential backoff.
 - More detailed error handling of errors sent by downstream system.
 - Back pressure, inform upstream that when load is high.
