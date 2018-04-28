@@ -1,0 +1,59 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mailman
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  phobos:
+    build: .
+    command: bundle exec phobos start
+    volumes:
+      - .:/mailman
+    depends_on:
+      - kafka
+    environment:
+      - BROKER_MAIN_TOPIC='mailer'
+      - BROKER_BACKUP_TOPIC='backup-mailer'
+      - BROKER_STATUS_TOPIC='status'
+      - WEB_SUCCESS_URL='http://mailman:9292/mail/:id/sent'
+      - WEB_FAILURE_URL='http://mailman:9292/mail/:id/failed'      
+  mailman:
+    build: .
+    command: bundle exec bin/web -p 9292 -b "0.0.0.0"
+    volumes:
+      - .:/mailman
+    ports:
+      - "9292:9292"
+    environment:
+      - MAILMAN_DB_ADAPTER=mysql2
+      - MAILMAN_DB_DATABASE=mailman
+      - MAILMAN_DB_POOL=5
+      - MAILMAN_DB_USERNAME=root
+      - MAILMAN_DB_PASSWORD=root
+      - MAILMAN_DB_HOST=db
+      - BROKER_MAIN_TOPIC='mailer'
+      - BROKER_BACKUP_TOPIC='backup-mailer'
+      - BROKER_STATUS_TOPIC='status'
+      - WEB_SUCCESS_URL='http://mailman:9292/mail/:id/sent'
+      - WEB_FAILURE_URL='http://mailman:9292/mail/:id/failed'      
+    depends_on:
+      - db
+      - phobos

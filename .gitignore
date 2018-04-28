@@ -1,3 +1,4 @@
 vendor/kafka_2.11-1.1.0/logs/*.log
 vendor/kafka_2.11-1.1.0/logs
+tmp/
 log/*

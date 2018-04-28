@@ -15,8 +15,22 @@ require_relative("app/web/app.rb")
 
 
 ENV['MAILMAN_ENV'] ||= "development"
-ActiveRecord::Base.configurations = YAML.load(File.read('config/database.yml'))
-ActiveRecord::Base.establish_connection ENV['MAILMAN_ENV'].to_sym
+# ActiveRecord::Base.configurations = YAML.load(File.read('config/database.yml'))
+db_connection_params =  {  
+  adapter: ENV['MAILMAN_DB_ADAPTER'],
+  encoding: 'utf8',
+  reconnect: false,
+  database: ENV['MAILMAN_DB_DATABASE'],
+  pool: ENV['MAILMAN_DB_POOL'],
+  username: ENV['MAILMAN_DB_USERNAME'],
+  password: ENV['MAILMAN_DB_PASSWORD'],
+  host: ENV['MAILMAN_DB_HOST'],
+}
+puts db_connection_params
+# config = YAML.load(File.read('config/database.yml'))
+# ActiveRecord::Base.establish_connection config[ENV['MAILMAN_ENV']]
+ActiveRecord::Base.establish_connection db_connection_params
+
 
 module Mailman
   def self.root

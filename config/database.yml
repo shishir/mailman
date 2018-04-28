@@ -6,11 +6,11 @@ default_env: &default
   pool: 5
   username: root
   password: root
-  host: localhost
+  host: db
 
 development:
   <<: *default
-  database: mailman_development
+  database: mailman
 
 test:
   <<: *default
