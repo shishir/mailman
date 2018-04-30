@@ -9,7 +9,9 @@ module Mailman
         begin
           hsh = JSON.parse(payload)
           log(hsh)
-          CircuitBreaker.new {Api::Sendgrid.new.send(hsh["mail"])}.call
+          @circuit_breaker ||= CircuitBreaker.new {Api::Sendgrid.new.send(hsh["mail"])}.call
+          @circuit_breaker.call
+
           hsh[:status] = "success"
           self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
         rescue CircuitBreakerOpen

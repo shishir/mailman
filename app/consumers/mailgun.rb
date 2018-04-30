@@ -7,7 +7,9 @@ module Mailman
 
       def consume(payload, metadata)
         hsh = JSON.parse(payload)
-        circuitBreaker = CircuitBreaker.new {Api::Mailgun.new.send(hsh["mail"])}.call
+        @circuit_breaker ||= CircuitBreaker.new {Api::Mailgun.new.send(hsh["mail"])}
+        @circuit_breaker.call
+
         hsh[:status] = "success"
         self.producer.async_publish(MailmanConfig.status_topic, hsh.to_json, "#{MailmanConfig.status_topic}-partition}")
       rescue CircuitBreakerOpen => e
