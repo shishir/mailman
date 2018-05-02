@@ -1,9 +1,0 @@
-#! /usr/bin/env bash
-# ./vendor/kafka_2.11-1.1.0/bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name mailer --add-config retention.ms=1000
-# ./vendor/kafka_2.11-1.1.0/bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name backup-mailer --add-config retention.ms=1000
-# ./vendor/kafka_2.11-1.1.0/bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name status --add-config retention.ms=1000
-
-
-./vendor/kafka_2.11-1.1.0/bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name mailer --delete-config retention.ms
-./vendor/kafka_2.11-1.1.0/bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name backup-mailer --delete-config retention.ms
-./vendor/kafka_2.11-1.1.0/bin/kafka-configs.sh --zookeeper localhost:2181 --alter --entity-type topics --entity-name status --delete-config retention.ms
